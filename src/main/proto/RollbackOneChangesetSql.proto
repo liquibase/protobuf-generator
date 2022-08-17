@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "com.command.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "RollbackOneChangesetSqlProto";
+package RollbackOneChangesetSql;
+
+service RollbackOneChangesetSqlService {
+  rpc execute(RollbackOneChangesetSqlRequest) returns (RollbackOneChangesetSqlResponse) {}
+}
+message RollbackOneChangesetSqlRequest {
+  optional string changelogFile = 1;
+  optional string changesetAuthor = 2;
+  optional string changesetId = 3;
+  optional string changesetPath = 4;
+  optional string defaultCatalogName = 5;
+  optional string defaultSchemaName = 6;
+  optional string driver = 7;
+  optional string driverPropertiesFile = 8;
+  optional bool force = 9;
+  optional string password = 10;
+  optional string rollbackScript = 11;
+  optional string url = 12;
+  optional string username = 13;
+  map<string, string> Configuration = 14;
+}
+message RollbackOneChangesetSqlResponse {
+  string message = 1;
+}

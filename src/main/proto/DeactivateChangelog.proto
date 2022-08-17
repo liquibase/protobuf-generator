@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "com.command.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "DeactivateChangelogProto";
+package DeactivateChangelog;
+
+service DeactivateChangelogService {
+  rpc execute(DeactivateChangelogRequest) returns (DeactivateChangelogResponse) {}
+}
+message DeactivateChangelogRequest {
+  optional string changelogFile = 1;
+  map<string, string> Configuration = 2;
+}
+message DeactivateChangelogResponse {
+  string message = 1;
+}

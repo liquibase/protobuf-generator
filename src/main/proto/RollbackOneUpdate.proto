@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "com.command.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "RollbackOneUpdateProto";
+package RollbackOneUpdate;
+
+service RollbackOneUpdateService {
+  rpc execute(RollbackOneUpdateRequest) returns (RollbackOneUpdateResponse) {}
+}
+message RollbackOneUpdateRequest {
+  optional string changeExecListenerClass = 1;
+  optional string changeExecListenerPropertiesFile = 2;
+  optional string changelogFile = 3;
+  optional string defaultCatalogName = 4;
+  optional string defaultSchemaName = 5;
+  optional string deploymentId = 6;
+  optional string driver = 7;
+  optional string driverPropertiesFile = 8;
+  optional bool force = 9;
+  optional string password = 10;
+  optional string rollbackScript = 11;
+  optional string url = 12;
+  optional string username = 13;
+  map<string, string> Configuration = 14;
+}
+message RollbackOneUpdateResponse {
+  string message = 1;
+}

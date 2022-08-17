@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "com.command.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "DiffProto";
+package Diff;
+
+service DiffService {
+  rpc execute(DiffRequest) returns (DiffResponse) {}
+}
+message DiffRequest {
+  optional string diffTypes = 1;
+  optional string driver = 2;
+  optional string driverPropertiesFile = 3;
+  optional string excludeObjects = 4;
+  optional string format = 5;
+  optional string includeObjects = 6;
+  optional string password = 7;
+  optional string referencePassword = 8;
+  optional string referenceUrl = 9;
+  optional string referenceUsername = 10;
+  optional string schemas = 11;
+  optional string url = 12;
+  optional string username = 13;
+  map<string, string> Configuration = 14;
+}
+message DiffResponse {
+  string message = 1;
+}

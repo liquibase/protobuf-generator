@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "com.command.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "UpdateToTagSqlProto";
+package UpdateToTagSql;
+
+service UpdateToTagSqlService {
+  rpc execute(UpdateToTagSqlRequest) returns (UpdateToTagSqlResponse) {}
+}
+message UpdateToTagSqlRequest {
+  optional string changeExecListenerClass = 1;
+  optional string changeExecListenerPropertiesFile = 2;
+  optional string changelogFile = 3;
+  optional string contexts = 4;
+  optional string defaultCatalogName = 5;
+  optional string defaultSchemaName = 6;
+  optional string driver = 7;
+  optional string driverPropertiesFile = 8;
+  optional string labels = 9;
+  optional bool outputDefaultCatalog = 10;
+  optional bool outputDefaultSchema = 11;
+  optional string password = 12;
+  optional string tag = 13;
+  optional string url = 14;
+  optional string username = 15;
+  map<string, string> Configuration = 16;
+}
+message UpdateToTagSqlResponse {
+  string message = 1;
+}
