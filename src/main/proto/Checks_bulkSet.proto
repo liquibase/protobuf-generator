@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "com.command.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "Checks_bulkSetProto";
+package Checks_bulkSet;
+
+service Checks_bulkSetService {
+  rpc execute(Checks_bulkSetRequest) returns (Checks_bulkSetResponse) {}
+}
+message Checks_bulkSetRequest {
+  optional string autoUpdate = 1;
+  optional string checksSettingsFile = 2;
+  optional bool disable = 3;
+  optional bool enable = 4;
+  optional bool force = 5;
+  optional string severity = 6;
+  map<string, string> Configuration = 7;
+}
+message Checks_bulkSetResponse {
+  string message = 1;
+}

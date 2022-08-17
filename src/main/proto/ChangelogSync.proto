@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "com.command.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "ChangelogSyncProto";
+package ChangelogSync;
+
+service ChangelogSyncService {
+  rpc execute(ChangelogSyncRequest) returns (ChangelogSyncResponse) {}
+}
+message ChangelogSyncRequest {
+  optional string changelogFile = 1;
+  optional string contexts = 2;
+  optional string defaultCatalogName = 3;
+  optional string defaultSchemaName = 4;
+  optional string driver = 5;
+  optional string driverPropertiesFile = 6;
+  optional string labels = 7;
+  optional string password = 8;
+  optional string url = 9;
+  optional string username = 10;
+  map<string, string> Configuration = 11;
+}
+message ChangelogSyncResponse {
+  string message = 1;
+}

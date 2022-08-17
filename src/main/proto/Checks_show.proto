@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "com.command.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "Checks_showProto";
+package Checks_show;
+
+service Checks_showService {
+  rpc execute(Checks_showRequest) returns (Checks_showResponse) {}
+}
+message Checks_showRequest {
+  optional string autoUpdate = 1;
+  optional string checksIntegration = 2;
+  optional string checksSettingsFile = 3;
+  map<string, string> Configuration = 4;
+}
+message Checks_showResponse {
+  string message = 1;
+}

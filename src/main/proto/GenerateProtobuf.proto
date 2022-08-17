@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "com.command.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "GenerateProtobufProto";
+package GenerateProtobuf;
+
+service GenerateProtobufService {
+  rpc execute(GenerateProtobufRequest) returns (GenerateProtobufResponse) {}
+}
+message GenerateProtobufRequest {
+  optional string outputDir = 1;
+  map<string, string> Configuration = 2;
+}
+message GenerateProtobufResponse {
+  string message = 1;
+}

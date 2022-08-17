@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "com.command.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "ListLocksProto";
+package ListLocks;
+
+service ListLocksService {
+  rpc execute(ListLocksRequest) returns (ListLocksResponse) {}
+}
+message ListLocksRequest {
+  optional string changelogFile = 1;
+  optional string defaultCatalogName = 2;
+  optional string defaultSchemaName = 3;
+  optional string driver = 4;
+  optional string driverPropertiesFile = 5;
+  optional string password = 6;
+  optional string url = 7;
+  optional string username = 8;
+  map<string, string> Configuration = 9;
+}
+message ListLocksResponse {
+  string message = 1;
+}

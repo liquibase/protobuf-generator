@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "com.command.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "FutureRollbackSqlProto";
+package FutureRollbackSql;
+
+service FutureRollbackSqlService {
+  rpc execute(FutureRollbackSqlRequest) returns (FutureRollbackSqlResponse) {}
+}
+message FutureRollbackSqlRequest {
+  optional string changelogFile = 1;
+  optional string contexts = 2;
+  optional string defaultCatalogName = 3;
+  optional string defaultSchemaName = 4;
+  optional string driver = 5;
+  optional string driverPropertiesFile = 6;
+  optional string labels = 7;
+  optional bool outputDefaultCatalog = 8;
+  optional bool outputDefaultSchema = 9;
+  optional string password = 10;
+  optional string url = 11;
+  optional string username = 12;
+  map<string, string> Configuration = 13;
+}
+message FutureRollbackSqlResponse {
+  string message = 1;
+}
