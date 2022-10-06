@@ -52,7 +52,7 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
             // Files should be named lower_snake_case.proto
             // https://developers.google.com/protocol-buffers/docs/style#file_structure
             commandName = toSnakeCase(commandName);
-            String uCommandName = StringUtil.upperCaseFirst(commandName);
+            String uCommandName = StringUtil.upperCaseFirst(StringUtil.toCamelCase(commandName));
 
             String fileName = commandName + ".proto";
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputDir + "/" + fileName))) {
@@ -77,14 +77,15 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
                     String dataTypeName = entry.getValue().getDataType().getSimpleName();
                     String argumentName = entry.getKey();
                     if (dataTypeName.equalsIgnoreCase("string")) {
-                        writer.write(optional + " string " + argumentName + " = " + Integer.toString(i) + ";\n");
+                        writer.write(optional + " string " + argumentName + " = " + Integer.toString(i) + ";");
                     } else if (dataTypeName.equalsIgnoreCase("boolean")) {
-                        writer.write(optional + " bool " + argumentName + " = " + Integer.toString(i) + ";\n");
+                        writer.write(optional + " bool " + argumentName + " = " + Integer.toString(i) + ";");
                     } else if (dataTypeName.equalsIgnoreCase("Integer")) {
-                        writer.write(optional + " int32 " + argumentName + " = " + Integer.toString(i) + ";\n");
+                        writer.write(optional + " int32 " + argumentName + " = " + Integer.toString(i) + ";");
                     } else {
-                        writer.write(optional + " string " + argumentName + " = " + Integer.toString(i) + ";\n");
+                        writer.write(optional + " string " + argumentName + " = " + Integer.toString(i) + ";");
                     }
+                    writer.write(" // " + entry.getValue().getDescription() + "\n");
                     i++;
                 }
                 writer.write( "  map<string, string> configuration = " + i + ";\n");
