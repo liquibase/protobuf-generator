@@ -1,16 +1,16 @@
 syntax = "proto3";
 
 option go_package="./;proto";
-option java_package = "com.command.proto";
+option java_package = "org.liquibase.grpc.proto";
 
 option java_multiple_files = true;
-option java_outer_classname = "RollbackProto";
-package Rollback;
+option java_outer_classname = "rollbackProto";
+package rollback;
 
-service RollbackService {
-  rpc execute(RollbackRequest) returns (RollbackResponse) {}
+service rollbackService {
+  rpc execute(rollbackRequest) returns (rollbackResponse) {}
 }
-message RollbackRequest {
+message rollbackRequest {
   optional string changeExecListenerClass = 1;
   optional string changeExecListenerPropertiesFile = 2;
   optional string changelogFile = 3;
@@ -19,7 +19,7 @@ message RollbackRequest {
   optional string defaultSchemaName = 6;
   optional string driver = 7;
   optional string driverPropertiesFile = 8;
-  optional string labels = 9;
+  optional string labelFilter = 9;
   optional string password = 10;
   optional string rollbackScript = 11;
   optional string tag = 12;
@@ -27,6 +27,6 @@ message RollbackRequest {
   optional string username = 14;
   map<string, string> Configuration = 15;
 }
-message RollbackResponse {
+message rollbackResponse {
   string message = 1;
 }

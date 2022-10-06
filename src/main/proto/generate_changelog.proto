@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "org.liquibase.grpc.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "generate_changelogProto";
+package generate_changelog;
+
+service generate_changelogService {
+  rpc execute(generate_changelogRequest) returns (generate_changelogResponse) {}
+}
+message generate_changelogRequest {
+  optional string changelogFile = 1;
+  optional string dataOutputDirectory = 2;
+  optional string diffTypes = 3;
+  optional string driver = 4;
+  optional string driverPropertiesFile = 5;
+  optional string excludeObjects = 6;
+  optional bool includeCatalog = 7;
+  optional string includeObjects = 8;
+  optional bool includeSchema = 9;
+  optional string includeTablespace = 10;
+  optional string overwriteOutputFile = 11;
+  optional string password = 12;
+  optional string schemas = 13;
+  optional string url = 14;
+  optional string username = 15;
+  map<string, string> Configuration = 16;
+}
+message generate_changelogResponse {
+  string message = 1;
+}

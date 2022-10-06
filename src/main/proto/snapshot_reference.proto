@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "org.liquibase.grpc.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "snapshot_referenceProto";
+package snapshot_reference;
+
+service snapshot_referenceService {
+  rpc execute(snapshot_referenceRequest) returns (snapshot_referenceResponse) {}
+}
+message snapshot_referenceRequest {
+  optional string driver = 1;
+  optional string driverPropertiesFile = 2;
+  optional string referenceDefaultCatalogName = 3;
+  optional string referenceDefaultSchemaName = 4;
+  optional string referencePassword = 5;
+  optional string referenceUrl = 6;
+  optional string referenceUsername = 7;
+  optional string snapshotFormat = 8;
+  map<string, string> Configuration = 9;
+}
+message snapshot_referenceResponse {
+  string message = 1;
+}

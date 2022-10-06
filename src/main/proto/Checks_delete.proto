@@ -1,21 +1,21 @@
 syntax = "proto3";
 
 option go_package="./;proto";
-option java_package = "com.command.proto";
+option java_package = "org.liquibase.grpc.proto";
 
 option java_multiple_files = true;
-option java_outer_classname = "Checks_deleteProto";
-package Checks_delete;
+option java_outer_classname = "checks_deleteProto";
+package checks_delete;
 
-service Checks_deleteService {
-  rpc execute(Checks_deleteRequest) returns (Checks_deleteResponse) {}
+service checks_deleteService {
+  rpc execute(checks_deleteRequest) returns (checks_deleteResponse) {}
 }
-message Checks_deleteRequest {
+message checks_deleteRequest {
   optional string autoUpdate = 1;
   optional string checkName = 2;
   optional string checksSettingsFile = 3;
   map<string, string> Configuration = 4;
 }
-message Checks_deleteResponse {
+message checks_deleteResponse {
   string message = 1;
 }

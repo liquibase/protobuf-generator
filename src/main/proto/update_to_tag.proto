@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "org.liquibase.grpc.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "update_to_tagProto";
+package update_to_tag;
+
+service update_to_tagService {
+  rpc execute(update_to_tagRequest) returns (update_to_tagResponse) {}
+}
+message update_to_tagRequest {
+  optional string changeExecListenerClass = 1;
+  optional string changeExecListenerPropertiesFile = 2;
+  optional string changelogFile = 3;
+  optional string contexts = 4;
+  optional string defaultCatalogName = 5;
+  optional string defaultSchemaName = 6;
+  optional string driver = 7;
+  optional string driverPropertiesFile = 8;
+  optional string labelFilter = 9;
+  optional string password = 10;
+  optional string tag = 11;
+  optional string url = 12;
+  optional string username = 13;
+  map<string, string> Configuration = 14;
+}
+message update_to_tagResponse {
+  string message = 1;
+}

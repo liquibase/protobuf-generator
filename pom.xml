@@ -6,59 +6,28 @@
 
     <groupId>org.liquibase</groupId>
     <artifactId>liquibase-protobuf</artifactId>
-    <version>0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <amazon.aws.version>2.17.219</amazon.aws.version>
-        <groovy.version>2.6</groovy.version>
-        <dependency.spock.version>1.3-groovy-2.4</dependency.spock.version>
-        <junit.version>4.13.2</junit.version>
-        <liquibase.version>0-SNAPSHOT</liquibase.version>
-        <groovy.version>2.4.17</groovy.version>
-        <junit.version>4.13.2</junit.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>0-SNAPSHOT</version>
+            <version>4.16.1</version>
         </dependency>
-
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-commercial</artifactId>
-            <version>${liquibase.version}</version>
+            <version>4.16.1</version>
         </dependency>
-
-        <dependency> <!-- use a specific Groovy version rather than the one specified by spock-core -->
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <version>${groovy.version}</version>
-            <scope>test</scope>
-            <type>pom</type>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.codehaus.groovy</groupId>
-                    <artifactId>groovy-testng</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
         <dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-core</artifactId>
-            <version>${dependency.spock.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
+            <groupId>info.picocli</groupId>
+            <artifactId>picocli</artifactId>
+            <version>4.6.3</version>
         </dependency>
     </dependencies>
 

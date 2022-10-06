@@ -1,21 +1,21 @@
 syntax = "proto3";
 
 option go_package="./;proto";
-option java_package = "com.command.proto";
+option java_package = "org.liquibase.grpc.proto";
 
 option java_multiple_files = true;
-option java_outer_classname = "Checks_enableProto";
-package Checks_enable;
+option java_outer_classname = "checks_enableProto";
+package checks_enable;
 
-service Checks_enableService {
-  rpc execute(Checks_enableRequest) returns (Checks_enableResponse) {}
+service checks_enableService {
+  rpc execute(checks_enableRequest) returns (checks_enableResponse) {}
 }
-message Checks_enableRequest {
+message checks_enableRequest {
   optional string autoUpdate = 1;
   optional string checkName = 2;
   optional string checksSettingsFile = 3;
   map<string, string> Configuration = 4;
 }
-message Checks_enableResponse {
+message checks_enableResponse {
   string message = 1;
 }

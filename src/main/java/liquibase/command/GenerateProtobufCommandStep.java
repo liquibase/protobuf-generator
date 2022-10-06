@@ -37,20 +37,29 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
         CommandScope commandScope = resultsBuilder.getCommandScope();
         String outputDir = commandScope.getArgumentValue(OUTPUT_DIR_ARG);
         for (CommandDefinition commandDefinition : getCommands()) {
+
+            //Don't generate protobuf for generateProtobuf command step
+            if (commandDefinition.getName() == COMMAND_NAME) {
+                continue;
+            }
+
             String commandName = commandDefinition.getName()[0];
             if (commandDefinition.getName().length > 1) {
                 commandName += "_" + commandDefinition.getName()[1];
             }
             System.out.println(commandName);
-            commandName = StringUtil.upperCaseFirst(commandName);
+
+            // Files should be named lower_snake_case.proto
+            // https://developers.google.com/protocol-buffers/docs/style#file_structure
+            commandName = toSnakeCase(commandName);
+
             String fileName = commandName + ".proto";
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputDir + "/" + fileName))) {
                 writer.write("syntax = \"proto3\";\n");
                 writer.write("\n");
-                // writer.write("option go_package=\"./pb;command\";");
-                writer.write("option go_package=\"./;proto\";");
+                writer.write("option go_package=\"./;proto\";"); //TODO get proper golang package path
                 writer.write("\n");
-                writer.write("option java_package = \"com.command.proto\";\n");
+                writer.write("option java_package = \"org.liquibase.grpc.proto\";\n");
                 writer.write("\n");
                 writer.write("option java_multiple_files = true;\n");
                 writer.write("option java_outer_classname = \"" + commandName + "Proto\";\n");
@@ -88,6 +97,26 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
             }
         }
         getConfigurations();
+    }
+
+    // https://www.geeksforgeeks.org/convert-camel-case-string-to-snake-case-in-java/
+    private String toSnakeCase(String str) {
+        String result = "";
+        char c = str.charAt(0);
+        result = result + Character.toLowerCase(c);
+        for (int i = 1; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if (Character.isUpperCase(ch)) {
+                result = result + '_';
+                result
+                        = result
+                        + Character.toLowerCase(ch);
+            }
+            else {
+                result = result + ch;
+            }
+        }
+        return result;
     }
 
     private SortedSet<CommandDefinition> getCommands() {

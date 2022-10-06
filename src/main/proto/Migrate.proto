@@ -1,16 +1,16 @@
 syntax = "proto3";
 
 option go_package="./;proto";
-option java_package = "com.command.proto";
+option java_package = "org.liquibase.grpc.proto";
 
 option java_multiple_files = true;
-option java_outer_classname = "MigrateProto";
-package Migrate;
+option java_outer_classname = "migrateProto";
+package migrate;
 
-service MigrateService {
-  rpc execute(MigrateRequest) returns (MigrateResponse) {}
+service migrateService {
+  rpc execute(migrateRequest) returns (migrateResponse) {}
 }
-message MigrateRequest {
+message migrateRequest {
   optional string changeExecListenerClass = 1;
   optional string changeExecListenerPropertiesFile = 2;
   optional string changelogFile = 3;
@@ -19,12 +19,12 @@ message MigrateRequest {
   optional string defaultSchemaName = 6;
   optional string driver = 7;
   optional string driverPropertiesFile = 8;
-  optional string labels = 9;
+  optional string labelFilter = 9;
   optional string password = 10;
   optional string url = 11;
   optional string username = 12;
   map<string, string> Configuration = 13;
 }
-message MigrateResponse {
+message migrateResponse {
   string message = 1;
 }

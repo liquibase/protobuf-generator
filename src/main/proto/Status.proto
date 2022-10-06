@@ -1,29 +1,29 @@
 syntax = "proto3";
 
 option go_package="./;proto";
-option java_package = "com.command.proto";
+option java_package = "org.liquibase.grpc.proto";
 
 option java_multiple_files = true;
-option java_outer_classname = "StatusProto";
-package Status;
+option java_outer_classname = "statusProto";
+package status;
 
-service StatusService {
-  rpc execute(StatusRequest) returns (StatusResponse) {}
+service statusService {
+  rpc execute(statusRequest) returns (statusResponse) {}
 }
-message StatusRequest {
+message statusRequest {
   optional string changelogFile = 1;
   optional string contexts = 2;
   optional string defaultCatalogName = 3;
   optional string defaultSchemaName = 4;
   optional string driver = 5;
   optional string driverPropertiesFile = 6;
-  optional string labels = 7;
+  optional string labelFilter = 7;
   optional string password = 8;
   optional string url = 9;
   optional string username = 10;
   optional bool verbose = 11;
   map<string, string> Configuration = 12;
 }
-message StatusResponse {
+message statusResponse {
   string message = 1;
 }

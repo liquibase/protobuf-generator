@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "org.liquibase.grpc.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "update_count_sqlProto";
+package update_count_sql;
+
+service update_count_sqlService {
+  rpc execute(update_count_sqlRequest) returns (update_count_sqlResponse) {}
+}
+message update_count_sqlRequest {
+  optional string changeExecListenerClass = 1;
+  optional string changeExecListenerPropertiesFile = 2;
+  optional string changelogFile = 3;
+  optional string contexts = 4;
+  optional int32 count = 5;
+  optional string defaultCatalogName = 6;
+  optional string defaultSchemaName = 7;
+  optional string driver = 8;
+  optional string driverPropertiesFile = 9;
+  optional string labelFilter = 10;
+  optional bool outputDefaultCatalog = 11;
+  optional bool outputDefaultSchema = 12;
+  optional string password = 13;
+  optional string url = 14;
+  optional string username = 15;
+  map<string, string> Configuration = 16;
+}
+message update_count_sqlResponse {
+  string message = 1;
+}

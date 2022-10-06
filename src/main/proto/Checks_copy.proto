@@ -1,21 +1,21 @@
 syntax = "proto3";
 
 option go_package="./;proto";
-option java_package = "com.command.proto";
+option java_package = "org.liquibase.grpc.proto";
 
 option java_multiple_files = true;
-option java_outer_classname = "Checks_copyProto";
-package Checks_copy;
+option java_outer_classname = "checks_copyProto";
+package checks_copy;
 
-service Checks_copyService {
-  rpc execute(Checks_copyRequest) returns (Checks_copyResponse) {}
+service checks_copyService {
+  rpc execute(checks_copyRequest) returns (checks_copyResponse) {}
 }
-message Checks_copyRequest {
+message checks_copyRequest {
   optional string autoUpdate = 1;
   optional string checkName = 2;
   optional string checksSettingsFile = 3;
   map<string, string> Configuration = 4;
 }
-message Checks_copyResponse {
+message checks_copyResponse {
   string message = 1;
 }

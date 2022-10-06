@@ -1,16 +1,16 @@
 syntax = "proto3";
 
 option go_package="./;proto";
-option java_package = "com.command.proto";
+option java_package = "org.liquibase.grpc.proto";
 
 option java_multiple_files = true;
-option java_outer_classname = "Checks_runProto";
-package Checks_run;
+option java_outer_classname = "checks_runProto";
+package checks_run;
 
-service Checks_runService {
-  rpc execute(Checks_runRequest) returns (Checks_runResponse) {}
+service checks_runService {
+  rpc execute(checks_runRequest) returns (checks_runResponse) {}
 }
-message Checks_runRequest {
+message checks_runRequest {
   optional string autoUpdate = 1;
   optional bool cacheChangelogFileContents = 2;
   optional string changelogFile = 3;
@@ -32,6 +32,6 @@ message Checks_runRequest {
   optional bool verbose = 19;
   map<string, string> Configuration = 20;
 }
-message Checks_runResponse {
+message checks_runResponse {
   string message = 1;
 }

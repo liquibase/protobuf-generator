@@ -1,21 +1,21 @@
 syntax = "proto3";
 
 option go_package="./;proto";
-option java_package = "com.command.proto";
+option java_package = "org.liquibase.grpc.proto";
 
 option java_multiple_files = true;
-option java_outer_classname = "Checks_resetProto";
-package Checks_reset;
+option java_outer_classname = "checks_resetProto";
+package checks_reset;
 
-service Checks_resetService {
-  rpc execute(Checks_resetRequest) returns (Checks_resetResponse) {}
+service checks_resetService {
+  rpc execute(checks_resetRequest) returns (checks_resetResponse) {}
 }
-message Checks_resetRequest {
+message checks_resetRequest {
   optional string autoUpdate = 1;
   optional string checkName = 2;
   optional string checksSettingsFile = 3;
   map<string, string> Configuration = 4;
 }
-message Checks_resetResponse {
+message checks_resetResponse {
   string message = 1;
 }

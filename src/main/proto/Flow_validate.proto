@@ -1,21 +1,21 @@
 syntax = "proto3";
 
 option go_package="./;proto";
-option java_package = "com.command.proto";
+option java_package = "org.liquibase.grpc.proto";
 
 option java_multiple_files = true;
-option java_outer_classname = "Flow_validateProto";
-package Flow_validate;
+option java_outer_classname = "flow_validateProto";
+package flow_validate;
 
-service Flow_validateService {
-  rpc execute(Flow_validateRequest) returns (Flow_validateResponse) {}
+service flow_validateService {
+  rpc execute(flow_validateRequest) returns (flow_validateResponse) {}
 }
-message Flow_validateRequest {
+message flow_validateRequest {
   optional string flowFile = 1;
   optional bool flowFileStrictParsing = 2;
   optional string flowIntegration = 3;
   map<string, string> Configuration = 4;
 }
-message Flow_validateResponse {
+message flow_validateResponse {
   string message = 1;
 }

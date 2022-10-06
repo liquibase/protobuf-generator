@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "org.liquibase.grpc.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "future_rollback_count_sqlProto";
+package future_rollback_count_sql;
+
+service future_rollback_count_sqlService {
+  rpc execute(future_rollback_count_sqlRequest) returns (future_rollback_count_sqlResponse) {}
+}
+message future_rollback_count_sqlRequest {
+  optional string changelogFile = 1;
+  optional string contexts = 2;
+  optional int32 count = 3;
+  optional string defaultCatalogName = 4;
+  optional string defaultSchemaName = 5;
+  optional string driver = 6;
+  optional string driverPropertiesFile = 7;
+  optional string labelFilter = 8;
+  optional bool outputDefaultCatalog = 9;
+  optional bool outputDefaultSchema = 10;
+  optional string password = 11;
+  optional string url = 12;
+  optional string username = 13;
+  map<string, string> Configuration = 14;
+}
+message future_rollback_count_sqlResponse {
+  string message = 1;
+}

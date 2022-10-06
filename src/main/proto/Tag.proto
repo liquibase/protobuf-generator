@@ -1,16 +1,16 @@
 syntax = "proto3";
 
 option go_package="./;proto";
-option java_package = "com.command.proto";
+option java_package = "org.liquibase.grpc.proto";
 
 option java_multiple_files = true;
-option java_outer_classname = "TagProto";
-package Tag;
+option java_outer_classname = "tagProto";
+package tag;
 
-service TagService {
-  rpc execute(TagRequest) returns (TagResponse) {}
+service tagService {
+  rpc execute(tagRequest) returns (tagResponse) {}
 }
-message TagRequest {
+message tagRequest {
   optional string defaultCatalogName = 1;
   optional string defaultSchemaName = 2;
   optional string driver = 3;
@@ -21,6 +21,6 @@ message TagRequest {
   optional string username = 8;
   map<string, string> Configuration = 9;
 }
-message TagResponse {
+message tagResponse {
   string message = 1;
 }

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "org.liquibase.grpc.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "deactivate_changelogProto";
+package deactivate_changelog;
+
+service deactivate_changelogService {
+  rpc execute(deactivate_changelogRequest) returns (deactivate_changelogResponse) {}
+}
+message deactivate_changelogRequest {
+  optional string changelogFile = 1;
+  map<string, string> Configuration = 2;
+}
+message deactivate_changelogResponse {
+  string message = 1;
+}

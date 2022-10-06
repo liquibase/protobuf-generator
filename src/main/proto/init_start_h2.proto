@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "org.liquibase.grpc.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "init_start_h2Proto";
+package init_start_h2;
+
+service init_start_h2Service {
+  rpc execute(init_start_h2Request) returns (init_start_h2Response) {}
+}
+message init_start_h2Request {
+  optional string bindAddress = 1;
+  optional int32 dbPort = 2;
+  optional bool launchBrowser = 3;
+  optional string password = 4;
+  optional string username = 5;
+  optional int32 webPort = 6;
+  map<string, string> Configuration = 7;
+}
+message init_start_h2Response {
+  string message = 1;
+}

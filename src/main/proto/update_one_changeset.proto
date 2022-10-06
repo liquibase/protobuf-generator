@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option go_package="./;proto";
+option java_package = "org.liquibase.grpc.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "update_one_changesetProto";
+package update_one_changeset;
+
+service update_one_changesetService {
+  rpc execute(update_one_changesetRequest) returns (update_one_changesetResponse) {}
+}
+message update_one_changesetRequest {
+  optional string changesetAuthor = 1;
+  optional string changesetId = 2;
+  optional string changesetPath = 3;
+  optional string defaultCatalogName = 4;
+  optional string defaultSchemaName = 5;
+  optional string driver = 6;
+  optional string driverPropertiesFile = 7;
+  optional bool force = 8;
+  optional string password = 9;
+  optional string url = 10;
+  optional string username = 11;
+  map<string, string> Configuration = 12;
+}
+message update_one_changesetResponse {
+  string message = 1;
+}
