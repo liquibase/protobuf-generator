@@ -23,7 +23,7 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
     static {
         CommandBuilder builder = new CommandBuilder(GenerateProtobufCommandStep.COMMAND_NAME);
         OUTPUT_DIR_ARG = builder.argument("outputDir", String.class)
-                .defaultValue("src/main/proto")
+                .defaultValue("proto")
                 .description("Director for protobuf output").build();
     }
 
@@ -62,6 +62,8 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
                 writer.write("option java_package = \"org.liquibase.grpc.proto\";\n");
                 writer.write("option java_multiple_files = true;\n");
                 writer.write("option java_outer_classname = \"" + uCommandName + "Proto\";\n");
+                writer.write("\n");
+                writer.write("/* " + commandDefinition.getShortDescription() + " */");
                 writer.write("\n");
                 writer.write("package " + commandName + ";\n");
                 writer.write("\n");
