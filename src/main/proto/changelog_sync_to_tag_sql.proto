@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "changelog_sync_to_tag_sqlProto";
+option java_outer_classname = "Changelog_sync_to_tag_sqlProto";
+
 package changelog_sync_to_tag_sql;
 
-service changelog_sync_to_tag_sqlService {
-  rpc execute(changelog_sync_to_tag_sqlRequest) returns (changelog_sync_to_tag_sqlResponse) {}
+service Changelog_sync_to_tag_sqlService {
+  rpc execute(Changelog_sync_to_tag_sqlRequest) returns (Response) {}
 }
-message changelog_sync_to_tag_sqlRequest {
+
+message Changelog_sync_to_tag_sqlRequest {
   optional string changelogFile = 1;
   optional string contexts = 2;
   optional string defaultCatalogName = 3;
@@ -24,8 +25,9 @@ message changelog_sync_to_tag_sqlRequest {
   optional string tag = 11;
   optional string url = 12;
   optional string username = 13;
-  map<string, string> Configuration = 14;
+  map<string, string> configuration = 14;
 }
-message changelog_sync_to_tag_sqlResponse {
+
+message Response {
   string message = 1;
 }

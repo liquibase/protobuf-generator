@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "changelog_syncProto";
+option java_outer_classname = "Changelog_syncProto";
+
 package changelog_sync;
 
-service changelog_syncService {
-  rpc execute(changelog_syncRequest) returns (changelog_syncResponse) {}
+service Changelog_syncService {
+  rpc execute(Changelog_syncRequest) returns (Response) {}
 }
-message changelog_syncRequest {
+
+message Changelog_syncRequest {
   optional string changelogFile = 1;
   optional string contexts = 2;
   optional string defaultCatalogName = 3;
@@ -21,8 +22,9 @@ message changelog_syncRequest {
   optional string password = 8;
   optional string url = 9;
   optional string username = 10;
-  map<string, string> Configuration = 11;
+  map<string, string> configuration = 11;
 }
-message changelog_syncResponse {
+
+message Response {
   string message = 1;
 }

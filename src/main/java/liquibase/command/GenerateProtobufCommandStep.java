@@ -52,25 +52,24 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
             // Files should be named lower_snake_case.proto
             // https://developers.google.com/protocol-buffers/docs/style#file_structure
             commandName = toSnakeCase(commandName);
+            String uCommandName = StringUtil.upperCaseFirst(commandName);
 
             String fileName = commandName + ".proto";
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputDir + "/" + fileName))) {
                 writer.write("syntax = \"proto3\";\n");
                 writer.write("\n");
-                writer.write("option go_package=\"./;proto\";"); //TODO get proper golang package path
-                writer.write("\n");
+                writer.write("option go_package=\"./;proto\";\n"); //TODO get proper golang package path
                 writer.write("option java_package = \"org.liquibase.grpc.proto\";\n");
-                writer.write("\n");
                 writer.write("option java_multiple_files = true;\n");
-                writer.write("option java_outer_classname = \"" + commandName + "Proto\";\n");
-
+                writer.write("option java_outer_classname = \"" + uCommandName + "Proto\";\n");
+                writer.write("\n");
                 writer.write("package " + commandName + ";\n");
                 writer.write("\n");
-                writer.write("service " + commandName + "Service {\n");
-                writer.write("  rpc execute(" + commandName + "Request) returns (" + commandName + "Response) {}\n");
+                writer.write("service " + uCommandName + "Service {\n");
+                writer.write("  rpc execute(" + uCommandName + "Request) returns (Response) {}\n");
                 writer.write("}\n");
-
-                writer.write("message " + commandName + "Request {\n");
+                writer.write("\n");
+                writer.write("message " + uCommandName + "Request {\n");
                 String optional = "  optional";
                 int i=1;
                 Map<String, CommandArgumentDefinition<?>> arguments = commandDefinition.getArguments();
@@ -88,10 +87,10 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
                     }
                     i++;
                 }
-                writer.write( "  map<string, string> Configuration = " + i + ";\n");
+                writer.write( "  map<string, string> configuration = " + i + ";\n");
                 writer.write("}\n");
-
-                writer.write("message " + commandName + "Response {\n");
+                writer.write("\n");
+                writer.write("message Response {\n");
                 writer.write("  string message = 1;\n");
                 writer.write("}\n");
             }

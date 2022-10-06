@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "unexpected_changesetsProto";
+option java_outer_classname = "Unexpected_changesetsProto";
+
 package unexpected_changesets;
 
-service unexpected_changesetsService {
-  rpc execute(unexpected_changesetsRequest) returns (unexpected_changesetsResponse) {}
+service Unexpected_changesetsService {
+  rpc execute(Unexpected_changesetsRequest) returns (Response) {}
 }
-message unexpected_changesetsRequest {
+
+message Unexpected_changesetsRequest {
   optional string changelogFile = 1;
   optional string contexts = 2;
   optional string defaultCatalogName = 3;
@@ -21,8 +22,9 @@ message unexpected_changesetsRequest {
   optional string url = 8;
   optional string username = 9;
   optional bool verbose = 10;
-  map<string, string> Configuration = 11;
+  map<string, string> configuration = 11;
 }
-message unexpected_changesetsResponse {
+
+message Response {
   string message = 1;
 }

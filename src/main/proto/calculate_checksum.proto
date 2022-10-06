@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "calculate_checksumProto";
+option java_outer_classname = "Calculate_checksumProto";
+
 package calculate_checksum;
 
-service calculate_checksumService {
-  rpc execute(calculate_checksumRequest) returns (calculate_checksumResponse) {}
+service Calculate_checksumService {
+  rpc execute(Calculate_checksumRequest) returns (Response) {}
 }
-message calculate_checksumRequest {
+
+message Calculate_checksumRequest {
   optional string changelogFile = 1;
   optional string changesetIdentifier = 2;
   optional string defaultCatalogName = 3;
@@ -20,8 +21,9 @@ message calculate_checksumRequest {
   optional string password = 7;
   optional string url = 8;
   optional string username = 9;
-  map<string, string> Configuration = 10;
+  map<string, string> configuration = 10;
 }
-message calculate_checksumResponse {
+
+message Response {
   string message = 1;
 }

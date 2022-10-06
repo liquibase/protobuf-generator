@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "snapshotProto";
+option java_outer_classname = "SnapshotProto";
+
 package snapshot;
 
-service snapshotService {
-  rpc execute(snapshotRequest) returns (snapshotResponse) {}
+service SnapshotService {
+  rpc execute(SnapshotRequest) returns (Response) {}
 }
-message snapshotRequest {
+
+message SnapshotRequest {
   optional string database = 1;
   optional string defaultCatalogName = 2;
   optional string defaultSchemaName = 3;
@@ -22,8 +23,9 @@ message snapshotRequest {
   optional string snapshotFormat = 9;
   optional string url = 10;
   optional string username = 11;
-  map<string, string> Configuration = 12;
+  map<string, string> configuration = 12;
 }
-message snapshotResponse {
+
+message Response {
   string message = 1;
 }

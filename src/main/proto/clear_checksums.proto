@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "clear_checksumsProto";
+option java_outer_classname = "Clear_checksumsProto";
+
 package clear_checksums;
 
-service clear_checksumsService {
-  rpc execute(clear_checksumsRequest) returns (clear_checksumsResponse) {}
+service Clear_checksumsService {
+  rpc execute(Clear_checksumsRequest) returns (Response) {}
 }
-message clear_checksumsRequest {
+
+message Clear_checksumsRequest {
   optional string defaultCatalogName = 1;
   optional string defaultSchemaName = 2;
   optional string driver = 3;
@@ -18,8 +19,9 @@ message clear_checksumsRequest {
   optional string password = 5;
   optional string url = 6;
   optional string username = 7;
-  map<string, string> Configuration = 8;
+  map<string, string> configuration = 8;
 }
-message clear_checksumsResponse {
+
+message Response {
   string message = 1;
 }

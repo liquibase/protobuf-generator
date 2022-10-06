@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "future_rollback_sqlProto";
+option java_outer_classname = "Future_rollback_sqlProto";
+
 package future_rollback_sql;
 
-service future_rollback_sqlService {
-  rpc execute(future_rollback_sqlRequest) returns (future_rollback_sqlResponse) {}
+service Future_rollback_sqlService {
+  rpc execute(Future_rollback_sqlRequest) returns (Response) {}
 }
-message future_rollback_sqlRequest {
+
+message Future_rollback_sqlRequest {
   optional string changelogFile = 1;
   optional string contexts = 2;
   optional string defaultCatalogName = 3;
@@ -23,8 +24,9 @@ message future_rollback_sqlRequest {
   optional string password = 10;
   optional string url = 11;
   optional string username = 12;
-  map<string, string> Configuration = 13;
+  map<string, string> configuration = 13;
 }
-message future_rollback_sqlResponse {
+
+message Response {
   string message = 1;
 }

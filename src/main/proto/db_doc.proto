@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "db_docProto";
+option java_outer_classname = "Db_docProto";
+
 package db_doc;
 
-service db_docService {
-  rpc execute(db_docRequest) returns (db_docResponse) {}
+service Db_docService {
+  rpc execute(Db_docRequest) returns (Response) {}
 }
-message db_docRequest {
+
+message Db_docRequest {
   optional string changelogFile = 1;
   optional string defaultCatalogName = 2;
   optional string defaultSchemaName = 3;
@@ -20,8 +21,9 @@ message db_docRequest {
   optional string password = 7;
   optional string url = 8;
   optional string username = 9;
-  map<string, string> Configuration = 10;
+  map<string, string> configuration = 10;
 }
-message db_docResponse {
+
+message Response {
   string message = 1;
 }

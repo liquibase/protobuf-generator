@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "validateProto";
+option java_outer_classname = "ValidateProto";
+
 package validate;
 
-service validateService {
-  rpc execute(validateRequest) returns (validateResponse) {}
+service ValidateService {
+  rpc execute(ValidateRequest) returns (Response) {}
 }
-message validateRequest {
+
+message ValidateRequest {
   optional string changelogFile = 1;
   optional string defaultCatalogName = 2;
   optional string defaultSchemaName = 3;
@@ -19,8 +20,9 @@ message validateRequest {
   optional string password = 6;
   optional string url = 7;
   optional string username = 8;
-  map<string, string> Configuration = 9;
+  map<string, string> configuration = 9;
 }
-message validateResponse {
+
+message Response {
   string message = 1;
 }

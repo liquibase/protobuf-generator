@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "diffProto";
+option java_outer_classname = "DiffProto";
+
 package diff;
 
-service diffService {
-  rpc execute(diffRequest) returns (diffResponse) {}
+service DiffService {
+  rpc execute(DiffRequest) returns (Response) {}
 }
-message diffRequest {
+
+message DiffRequest {
   optional string diffTypes = 1;
   optional string driver = 2;
   optional string driverPropertiesFile = 3;
@@ -24,8 +25,9 @@ message diffRequest {
   optional string schemas = 11;
   optional string url = 12;
   optional string username = 13;
-  map<string, string> Configuration = 14;
+  map<string, string> configuration = 14;
 }
-message diffResponse {
+
+message Response {
   string message = 1;
 }

@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "update_testing_rollbackProto";
+option java_outer_classname = "Update_testing_rollbackProto";
+
 package update_testing_rollback;
 
-service update_testing_rollbackService {
-  rpc execute(update_testing_rollbackRequest) returns (update_testing_rollbackResponse) {}
+service Update_testing_rollbackService {
+  rpc execute(Update_testing_rollbackRequest) returns (Response) {}
 }
-message update_testing_rollbackRequest {
+
+message Update_testing_rollbackRequest {
   optional string changeExecListenerClass = 1;
   optional string changeExecListenerPropertiesFile = 2;
   optional string changelogFile = 3;
@@ -23,8 +24,9 @@ message update_testing_rollbackRequest {
   optional string password = 10;
   optional string url = 11;
   optional string username = 12;
-  map<string, string> Configuration = 13;
+  map<string, string> configuration = 13;
 }
-message update_testing_rollbackResponse {
+
+message Response {
   string message = 1;
 }

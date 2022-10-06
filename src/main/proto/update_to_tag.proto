@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "update_to_tagProto";
+option java_outer_classname = "Update_to_tagProto";
+
 package update_to_tag;
 
-service update_to_tagService {
-  rpc execute(update_to_tagRequest) returns (update_to_tagResponse) {}
+service Update_to_tagService {
+  rpc execute(Update_to_tagRequest) returns (Response) {}
 }
-message update_to_tagRequest {
+
+message Update_to_tagRequest {
   optional string changeExecListenerClass = 1;
   optional string changeExecListenerPropertiesFile = 2;
   optional string changelogFile = 3;
@@ -24,8 +25,9 @@ message update_to_tagRequest {
   optional string tag = 11;
   optional string url = 12;
   optional string username = 13;
-  map<string, string> Configuration = 14;
+  map<string, string> configuration = 14;
 }
-message update_to_tagResponse {
+
+message Response {
   string message = 1;
 }

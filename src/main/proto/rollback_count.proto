@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "rollback_countProto";
+option java_outer_classname = "Rollback_countProto";
+
 package rollback_count;
 
-service rollback_countService {
-  rpc execute(rollback_countRequest) returns (rollback_countResponse) {}
+service Rollback_countService {
+  rpc execute(Rollback_countRequest) returns (Response) {}
 }
-message rollback_countRequest {
+
+message Rollback_countRequest {
   optional string changeExecListenerClass = 1;
   optional string changeExecListenerPropertiesFile = 2;
   optional string changelogFile = 3;
@@ -25,8 +26,9 @@ message rollback_countRequest {
   optional string rollbackScript = 12;
   optional string url = 13;
   optional string username = 14;
-  map<string, string> Configuration = 15;
+  map<string, string> configuration = 15;
 }
-message rollback_countResponse {
+
+message Response {
   string message = 1;
 }

@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "rollback_one_update_sqlProto";
+option java_outer_classname = "Rollback_one_update_sqlProto";
+
 package rollback_one_update_sql;
 
-service rollback_one_update_sqlService {
-  rpc execute(rollback_one_update_sqlRequest) returns (rollback_one_update_sqlResponse) {}
+service Rollback_one_update_sqlService {
+  rpc execute(Rollback_one_update_sqlRequest) returns (Response) {}
 }
-message rollback_one_update_sqlRequest {
+
+message Rollback_one_update_sqlRequest {
   optional string changelogFile = 1;
   optional string defaultCatalogName = 2;
   optional string defaultSchemaName = 3;
@@ -22,8 +23,9 @@ message rollback_one_update_sqlRequest {
   optional string rollbackScript = 9;
   optional string url = 10;
   optional string username = 11;
-  map<string, string> Configuration = 12;
+  map<string, string> configuration = 12;
 }
-message rollback_one_update_sqlResponse {
+
+message Response {
   string message = 1;
 }

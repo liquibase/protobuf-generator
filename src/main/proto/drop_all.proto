@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "drop_allProto";
+option java_outer_classname = "Drop_allProto";
+
 package drop_all;
 
-service drop_allService {
-  rpc execute(drop_allRequest) returns (drop_allResponse) {}
+service Drop_allService {
+  rpc execute(Drop_allRequest) returns (Response) {}
 }
-message drop_allRequest {
+
+message Drop_allRequest {
   optional string changelogFile = 1;
   optional string defaultCatalogName = 2;
   optional string defaultSchemaName = 3;
@@ -22,8 +23,9 @@ message drop_allRequest {
   optional string schemas = 9;
   optional string url = 10;
   optional string username = 11;
-  map<string, string> Configuration = 12;
+  map<string, string> configuration = 12;
 }
-message drop_allResponse {
+
+message Response {
   string message = 1;
 }

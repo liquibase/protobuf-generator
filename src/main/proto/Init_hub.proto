@@ -2,23 +2,25 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "init_hubProto";
+option java_outer_classname = "Init_hubProto";
+
 package init_hub;
 
-service init_hubService {
-  rpc execute(init_hubRequest) returns (init_hubResponse) {}
+service Init_hubService {
+  rpc execute(Init_hubRequest) returns (Response) {}
 }
-message init_hubRequest {
+
+message Init_hubRequest {
   optional string changelogFile = 1;
   optional string password = 2;
   optional string projectDir = 3;
   optional string token = 4;
   optional string url = 5;
   optional string username = 6;
-  map<string, string> Configuration = 7;
+  map<string, string> configuration = 7;
 }
-message init_hubResponse {
+
+message Response {
   string message = 1;
 }

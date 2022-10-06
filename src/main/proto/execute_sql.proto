@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "execute_sqlProto";
+option java_outer_classname = "Execute_sqlProto";
+
 package execute_sql;
 
-service execute_sqlService {
-  rpc execute(execute_sqlRequest) returns (execute_sqlResponse) {}
+service Execute_sqlService {
+  rpc execute(Execute_sqlRequest) returns (Response) {}
 }
-message execute_sqlRequest {
+
+message Execute_sqlRequest {
   optional string defaultCatalogName = 1;
   optional string defaultSchemaName = 2;
   optional string delimiter = 3;
@@ -21,8 +22,9 @@ message execute_sqlRequest {
   optional string sqlFile = 8;
   optional string url = 9;
   optional string username = 10;
-  map<string, string> Configuration = 11;
+  map<string, string> configuration = 11;
 }
-message execute_sqlResponse {
+
+message Response {
   string message = 1;
 }

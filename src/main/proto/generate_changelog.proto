@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "generate_changelogProto";
+option java_outer_classname = "Generate_changelogProto";
+
 package generate_changelog;
 
-service generate_changelogService {
-  rpc execute(generate_changelogRequest) returns (generate_changelogResponse) {}
+service Generate_changelogService {
+  rpc execute(Generate_changelogRequest) returns (Response) {}
 }
-message generate_changelogRequest {
+
+message Generate_changelogRequest {
   optional string changelogFile = 1;
   optional string dataOutputDirectory = 2;
   optional string diffTypes = 3;
@@ -26,8 +27,9 @@ message generate_changelogRequest {
   optional string schemas = 13;
   optional string url = 14;
   optional string username = 15;
-  map<string, string> Configuration = 16;
+  map<string, string> configuration = 16;
 }
-message generate_changelogResponse {
+
+message Response {
   string message = 1;
 }

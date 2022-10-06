@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "rollback_one_changesetProto";
+option java_outer_classname = "Rollback_one_changesetProto";
+
 package rollback_one_changeset;
 
-service rollback_one_changesetService {
-  rpc execute(rollback_one_changesetRequest) returns (rollback_one_changesetResponse) {}
+service Rollback_one_changesetService {
+  rpc execute(Rollback_one_changesetRequest) returns (Response) {}
 }
-message rollback_one_changesetRequest {
+
+message Rollback_one_changesetRequest {
   optional string changeExecListenerClass = 1;
   optional string changeExecListenerPropertiesFile = 2;
   optional string changelogFile = 3;
@@ -26,8 +27,9 @@ message rollback_one_changesetRequest {
   optional string rollbackScript = 13;
   optional string url = 14;
   optional string username = 15;
-  map<string, string> Configuration = 16;
+  map<string, string> configuration = 16;
 }
-message rollback_one_changesetResponse {
+
+message Response {
   string message = 1;
 }

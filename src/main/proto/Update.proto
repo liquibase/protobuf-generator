@@ -2,15 +2,16 @@ syntax = "proto3";
 
 option go_package="./;proto";
 option java_package = "org.liquibase.grpc.proto";
-
 option java_multiple_files = true;
-option java_outer_classname = "updateProto";
+option java_outer_classname = "UpdateProto";
+
 package update;
 
-service updateService {
-  rpc execute(updateRequest) returns (updateResponse) {}
+service UpdateService {
+  rpc execute(UpdateRequest) returns (Response) {}
 }
-message updateRequest {
+
+message UpdateRequest {
   optional string changeExecListenerClass = 1;
   optional string changeExecListenerPropertiesFile = 2;
   optional string changelogFile = 3;
@@ -23,8 +24,9 @@ message updateRequest {
   optional string password = 10;
   optional string url = 11;
   optional string username = 12;
-  map<string, string> Configuration = 13;
+  map<string, string> configuration = 13;
 }
-message updateResponse {
+
+message Response {
   string message = 1;
 }
