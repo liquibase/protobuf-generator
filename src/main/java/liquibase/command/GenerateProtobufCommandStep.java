@@ -87,7 +87,7 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
             writer.write("}\n");
             writer.write("\n");
             writer.write("message " + uCommandName + "Request {\n");
-            String optional = "  optional";
+            String optional = "  "; //TODO temporarily remove optional
             int i=1;
             Map<String, CommandArgumentDefinition<?>> arguments = commandDefinition.getArguments();
             for (Map.Entry<String, CommandArgumentDefinition<?>> entry : arguments.entrySet()) {
