@@ -106,7 +106,7 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
                 writer.write(" // " + required + entry.getValue().getDescription() + "\n");
                 i++;
             }
-            writer.write( "  map<string, string> configuration = " + i + ";\n");
+//            writer.write( "  map<string, string> configuration = " + i + ";\n");
             writer.write("}\n");
             writer.write("\n");
             writer.write("message Response {\n");
