@@ -57,7 +57,8 @@ Liquibase Version: 4.16.1
 Liquibase Community 4.16.1 by Liquibase
 writing validate.proto
 Liquibase command 'generate-protobuf' was executed successfully.
-
+```
+```
 $ cat proto/validate.proto 
 syntax = "proto3";
 
