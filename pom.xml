@@ -6,7 +6,7 @@
 
     <groupId>org.liquibase</groupId>
     <artifactId>liquibase-protobuf</artifactId>
-    <version>4.16.1</version>
+    <version>0.1.0-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
