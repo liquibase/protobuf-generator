@@ -87,22 +87,23 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
             writer.write("}\n");
             writer.write("\n");
             writer.write("message " + uCommandName + "Request {\n");
-            String optional = "  "; //TODO temporarily remove optional
             int i=1;
             Map<String, CommandArgumentDefinition<?>> arguments = commandDefinition.getArguments();
             for (Map.Entry<String, CommandArgumentDefinition<?>> entry : arguments.entrySet()) {
+                String optional = entry.getValue().isRequired() ? "" : "  optional";
+                String required = entry.getValue().isRequired() ? "*required* " : "";
+                String tab = entry.getValue().isRequired() ? "  " : " ";
                 String dataTypeName = entry.getValue().getDataType().getSimpleName();
                 String argumentName = entry.getKey();
                 if (dataTypeName.equalsIgnoreCase("string")) {
-                    writer.write(optional + " string " + argumentName + " = " + Integer.toString(i) + ";");
+                    writer.write(optional + tab + "string " + argumentName + " = " + Integer.toString(i) + ";");
                 } else if (dataTypeName.equalsIgnoreCase("boolean")) {
-                    writer.write(optional + " bool " + argumentName + " = " + Integer.toString(i) + ";");
+                    writer.write(optional + tab + "bool " + argumentName + " = " + Integer.toString(i) + ";");
                 } else if (dataTypeName.equalsIgnoreCase("Integer")) {
-                    writer.write(optional + " int32 " + argumentName + " = " + Integer.toString(i) + ";");
+                    writer.write(optional + tab + "int32 " + argumentName + " = " + Integer.toString(i) + ";");
                 } else {
-                    writer.write(optional + " string " + argumentName + " = " + Integer.toString(i) + ";");
+                    writer.write(optional + tab + "string " + argumentName + " = " + Integer.toString(i) + ";");
                 }
-                String required = entry.getValue().isRequired() ? "*required* " : "";
                 writer.write(" // " + required + entry.getValue().getDescription() + "\n");
                 i++;
             }
