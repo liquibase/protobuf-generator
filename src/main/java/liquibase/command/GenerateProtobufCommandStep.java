@@ -1,16 +1,13 @@
 package liquibase.command;
 
 import liquibase.Scope;
-import liquibase.command.*;
 import liquibase.configuration.ConfigurationDefinition;
 import liquibase.configuration.LiquibaseConfiguration;
-import liquibase.servicelocator.ServiceLocator;
 import liquibase.util.StringUtil;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 
@@ -43,8 +40,10 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
         String outputDir = commandScope.getArgumentValue(OUTPUT_DIR_ARG);
         String targetCommand = commandScope.getArgumentValue(TARGET_COMMAND);
 
+        writeGlobalToFile(outputDir);
+
         if (targetCommand != "") {
-            writeToFile(getCommand(targetCommand), outputDir);
+            writeCommandToFile(getCommand(targetCommand), outputDir);
         } else {
             // Generate protobuf for all commands
             for (CommandDefinition commandDefinition : getCommands()) {
@@ -52,14 +51,53 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
                 if (commandDefinition.getName() == COMMAND_NAME) {
                     continue;
                 }
-                writeToFile(commandDefinition, outputDir);
+                writeCommandToFile(commandDefinition, outputDir);
             }
         }
         // getConfigurations(); TODO doesn't look to be used.
     }
 
 
-    private void writeToFile(CommandDefinition commandDefinition, String outputDir) throws IOException {
+    private void writeGlobalToFile(String outputDir) throws IOException {
+        String fileName = "global_options.proto";
+        System.out.println( "writing "  + fileName);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputDir + "/" + fileName))) {
+            writeHeaderToFile(writer, "globalOptions");
+            writer.write("/* Liquibase Global Options */\n");
+            writer.write("package global_options;\n\n");
+            writer.write("message GlobalOptions {\n");
+            int i = 1;
+            for (ConfigurationDefinition<?> def : getCommandDefinitions()) {
+                if (!def.getKey().contains("psql") && !def.getKey().contains("sqlcmd") && !def.getKey().contains("sqlplus")) {
+                    String dataTypeName = def.getDataType().getSimpleName();
+                    String key = def.getKey().replace("liquibase.", "");
+                    String argumentName = toSnakeCase(key.replace(".", "_"));
+                    if (dataTypeName.equalsIgnoreCase("string")) {
+                        writer.write("  optional string " + argumentName + " = " + i + ";");
+                    } else if (dataTypeName.equalsIgnoreCase("boolean")) {
+                        writer.write("  optional bool " + argumentName + " = " + i + ";");
+                    } else if (dataTypeName.equalsIgnoreCase("Integer")) {
+                        writer.write("  optional int32 " + argumentName + " = " + i + ";");
+                    } else {
+                        writer.write("  optional string " + argumentName + " = " + i + ";");
+                    }
+                    if (def.getDescription() != null) {
+                        writer.write(" // " + def.getDescription().replace("\n", "") + "\n");
+                    } else if(def.getDefaultValueDescription() != null) {
+                        writer.write(" // " + def.getDefaultValueDescription().replace("\n", "") + "\n");
+                    } else {
+                        writer.write("\n");
+                    }
+                    //TODO format line breaks at 80 for multiline comments
+                    //TODO catch deprecated int32 old_field = 6 [deprecated = true];
+                    i++;
+                }
+            }
+            writer.write("}\n\n");
+        }
+    }
+
+    private void writeCommandToFile(CommandDefinition commandDefinition, String outputDir) throws IOException {
         String commandName = commandDefinition.getName()[0];
         if (commandDefinition.getName().length > 1) {
             commandName += "_" + commandDefinition.getName()[1];
@@ -71,49 +109,55 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
         String fileName = commandName + ".proto";
         System.out.println( "writing "  + fileName);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputDir + "/" + fileName))) {
-            writer.write("syntax = \"proto3\";\n");
-            writer.write("\n");
-            writer.write("option go_package=\"./;proto\";\n"); //TODO get proper golang package path
-            writer.write("option java_package = \"org.liquibase.grpc.proto\";\n");
-            writer.write("option java_multiple_files = true;\n");
-            writer.write("option java_outer_classname = \"" + uCommandName + "Proto\";\n");
-            writer.write("\n");
-            writer.write("/* " + commandDefinition.getShortDescription() + " */");
-            writer.write("\n");
-            writer.write("package " + commandName + ";\n");
-            writer.write("\n");
+            writeHeaderToFile(writer, uCommandName);
+
+            writer.write("/* " + commandDefinition.getShortDescription() + " */\n");
+            writer.write("package " + commandName + ";\n\n");
             writer.write("service " + uCommandName + "Service {\n");
             writer.write("  rpc execute(" + uCommandName + "Request) returns (Response) {}\n");
-            writer.write("}\n");
-            writer.write("\n");
+            writer.write("}\n\n");
+
             writer.write("message " + uCommandName + "Request {\n");
-            int i=1;
-            Map<String, CommandArgumentDefinition<?>> arguments = commandDefinition.getArguments();
-            for (Map.Entry<String, CommandArgumentDefinition<?>> entry : arguments.entrySet()) {
-                String optional = entry.getValue().isRequired() ? "" : "  optional";
-                String required = entry.getValue().isRequired() ? "*required* " : "";
-                String tab = entry.getValue().isRequired() ? "  " : " ";
-                String dataTypeName = entry.getValue().getDataType().getSimpleName();
-                String argumentName = entry.getKey();
-                if (dataTypeName.equalsIgnoreCase("string")) {
-                    writer.write(optional + tab + "string " + argumentName + " = " + Integer.toString(i) + ";");
-                } else if (dataTypeName.equalsIgnoreCase("boolean")) {
-                    writer.write(optional + tab + "bool " + argumentName + " = " + Integer.toString(i) + ";");
-                } else if (dataTypeName.equalsIgnoreCase("Integer")) {
-                    writer.write(optional + tab + "int32 " + argumentName + " = " + Integer.toString(i) + ";");
-                } else {
-                    writer.write(optional + tab + "string " + argumentName + " = " + Integer.toString(i) + ";");
-                }
-                writer.write(" // " + required + entry.getValue().getDescription() + "\n");
-                i++;
-            }
-//            writer.write( "  map<string, string> configuration = " + i + ";\n");
-            writer.write("}\n");
-            writer.write("\n");
+            writeArgumentsToFile(writer, commandDefinition.getArguments());
+            writer.write("}\n\n");
+
             writer.write("message Response {\n");
             writer.write("  string message = 1;\n");
             writer.write("}\n");
         }
+    }
+
+    private void writeHeaderToFile(BufferedWriter writer, String uCommandName) throws IOException {
+        writer.write("syntax = \"proto3\";\n");
+        writer.write("import public \"global_options.proto\";\n");
+        writer.write("\n");
+        writer.write("option go_package=\"./;proto\";\n"); //TODO get proper golang package path
+        writer.write("option java_package = \"org.liquibase.grpc.proto\";\n");
+        writer.write("option java_multiple_files = true;\n");
+        writer.write("option java_outer_classname = \"" + uCommandName + "Proto\";\n\n");
+    }
+
+    private void writeArgumentsToFile(BufferedWriter writer, Map<String, CommandArgumentDefinition<?>> arguments) throws IOException {
+        int i=1;
+        for (Map.Entry<String, CommandArgumentDefinition<?>> entry : arguments.entrySet()) {
+            String optional = entry.getValue().isRequired() ? "" : "  optional ";
+            String required = entry.getValue().isRequired() ? "*required* " : "";
+            String tab = entry.getValue().isRequired() ? "  " : "";
+            String dataTypeName = entry.getValue().getDataType().getSimpleName();
+            String argumentName = entry.getKey();
+            if (dataTypeName.equalsIgnoreCase("string")) {
+                writer.write(optional + tab + "string " + argumentName + " = " + Integer.toString(i) + ";");
+            } else if (dataTypeName.equalsIgnoreCase("boolean")) {
+                writer.write(optional + tab + "bool " + argumentName + " = " + Integer.toString(i) + ";");
+            } else if (dataTypeName.equalsIgnoreCase("Integer")) {
+                writer.write(optional + tab + "int32 " + argumentName + " = " + Integer.toString(i) + ";");
+            } else {
+                writer.write(optional + tab + "string " + argumentName + " = " + Integer.toString(i) + ";");
+            }
+            writer.write(" // " + required + entry.getValue().getDescription() + "\n");
+            i++;
+        }
+        writer.write("  global_options.GlobalOptions global_options = " + i + ";\n");
     }
 
     // https://www.geeksforgeeks.org/convert-camel-case-string-to-snake-case-in-java/
@@ -139,6 +183,11 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
     private CommandDefinition getCommand(String targetCommand) {
         final CommandFactory commandFactory = getCurrentScope().getSingleton(CommandFactory.class);
         return commandFactory.getCommandDefinition(targetCommand);
+    }
+
+    private SortedSet<ConfigurationDefinition<?>> getCommandDefinitions() {
+        final LiquibaseConfiguration liquibaseConfiguration = getCurrentScope().getSingleton(LiquibaseConfiguration.class);
+        return liquibaseConfiguration.getRegisteredDefinitions(false);
     }
 
     private SortedSet<CommandDefinition> getCommands() {
