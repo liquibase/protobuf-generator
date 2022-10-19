@@ -63,8 +63,8 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
         System.out.println( "writing "  + fileName);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputDir + "/" + fileName))) {
             writeHeaderToFile(writer, "globalOptions");
+            writer.write("package liquibase;\n\n");
             writer.write("/* Liquibase Global Options */\n");
-            writer.write("package global_options;\n\n");
             writer.write("message GlobalOptions {\n");
             int i = 1;
             for (ConfigurationDefinition<?> def : getCommandDefinitions()) {
@@ -108,15 +108,16 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
         String uCommandName = StringUtil.upperCaseFirst(StringUtil.toCamelCase(commandName));
         String fileName = commandName + ".proto";
         System.out.println( "writing "  + fileName);
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputDir + "/" + fileName))) {
             writeHeaderToFile(writer, uCommandName);
-
-            writer.write("/* " + commandDefinition.getShortDescription() + " */\n");
-            writer.write("package " + commandName + ";\n\n");
+            //TODO look for os vs pro packages
+            writer.write("package liquibase;\n\n");
             writer.write("service " + uCommandName + "Service {\n");
             writer.write("  rpc execute(" + uCommandName + "Request) returns (Response) {}\n");
             writer.write("}\n\n");
 
+            writer.write("/* " + commandDefinition.getShortDescription() + " */\n");
             writer.write("message " + uCommandName + "Request {\n");
             writeArgumentsToFile(writer, commandDefinition.getArguments());
             writer.write("}\n\n");
@@ -157,7 +158,7 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
             writer.write(" // " + required + entry.getValue().getDescription() + "\n");
             i++;
         }
-        writer.write("  global_options.GlobalOptions global_options = " + i + ";\n");
+        writer.write("  liquibase.GlobalOptions global_options = " + i + ";\n");
     }
 
     // https://www.geeksforgeeks.org/convert-camel-case-string-to-snake-case-in-java/
