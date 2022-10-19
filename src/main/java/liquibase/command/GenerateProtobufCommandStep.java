@@ -130,7 +130,9 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
 
     private void writeHeaderToFile(BufferedWriter writer, String uCommandName) throws IOException {
         writer.write("syntax = \"proto3\";\n");
-        writer.write("import public \"global_options.proto\";\n");
+        if (uCommandName != "globalOptions") {
+            writer.write("import public \"global_options.proto\";\n");
+        }
         writer.write("\n");
         writer.write("option go_package=\"./;proto\";\n"); //TODO get proper golang package path
         writer.write("option java_package = \"org.liquibase.grpc.proto\";\n");
