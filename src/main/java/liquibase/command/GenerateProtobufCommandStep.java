@@ -114,13 +114,26 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
             //TODO look for os vs pro packages
             writer.write("package liquibase;\n\n");
             writer.write("service " + uCommandName + "Service {\n");
-            writer.write("  rpc execute(" + uCommandName + "Request) returns (Response) {}\n");
+            if (commandDefinition.getName().length > 1) {
+                writer.write("  rpc execute(" + StringUtil.upperCaseFirst(StringUtil.toCamelCase(commandDefinition.getName()[0])) + "." + StringUtil.upperCaseFirst(StringUtil.toCamelCase(commandDefinition.getName()[1])) + "Request) returns (Response) {}\n");
+            } else {
+                writer.write("  rpc execute(" + uCommandName + "Request) returns (Response) {}\n");
+            }
             writer.write("}\n\n");
 
             writer.write("/* " + commandDefinition.getShortDescription() + " */\n");
-            writer.write("message " + uCommandName + "Request {\n");
-            writeArgumentsToFile(writer, commandDefinition.getArguments());
-            writer.write("}\n\n");
+            if (commandDefinition.getName().length > 1) {
+                //TODO account for nested commands. ex: checks copy
+                writer.write("message " + StringUtil.upperCaseFirst(StringUtil.toCamelCase(commandDefinition.getName()[0]))  + " {\n");
+                writer.write("  message " + StringUtil.upperCaseFirst(StringUtil.toCamelCase(commandDefinition.getName()[1])) + "Request {\n");
+                writeArgumentsToFile(writer, commandDefinition.getArguments(), "  ");
+                writer.write("  }\n");
+                writer.write("}\n\n");
+            } else {
+                writer.write("message " + uCommandName + "Request {\n");
+                writeArgumentsToFile(writer, commandDefinition.getArguments(), "");
+                writer.write("}\n\n");
+            }
 
             writer.write("message Response {\n");
             writer.write("  string message = 1;\n");
@@ -140,7 +153,7 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
         writer.write("option java_outer_classname = \"" + uCommandName + "Proto\";\n\n");
     }
 
-    private void writeArgumentsToFile(BufferedWriter writer, Map<String, CommandArgumentDefinition<?>> arguments) throws IOException {
+    private void writeArgumentsToFile(BufferedWriter writer, Map<String, CommandArgumentDefinition<?>> arguments, String indent) throws IOException {
         int i=1;
         for (Map.Entry<String, CommandArgumentDefinition<?>> entry : arguments.entrySet()) {
             String optional = entry.getValue().isRequired() ? "" : "  optional ";
@@ -149,18 +162,18 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
             String dataTypeName = entry.getValue().getDataType().getSimpleName();
             String argumentName = toSnakeCase(entry.getKey());
             if (dataTypeName.equalsIgnoreCase("string")) {
-                writer.write(optional + tab + "string " + argumentName + " = " + Integer.toString(i) + ";");
+                writer.write(indent + optional + tab + "string " + argumentName + " = " + Integer.toString(i) + ";");
             } else if (dataTypeName.equalsIgnoreCase("boolean")) {
-                writer.write(optional + tab + "bool " + argumentName + " = " + Integer.toString(i) + ";");
+                writer.write(indent + optional + tab + "bool " + argumentName + " = " + Integer.toString(i) + ";");
             } else if (dataTypeName.equalsIgnoreCase("Integer")) {
-                writer.write(optional + tab + "int32 " + argumentName + " = " + Integer.toString(i) + ";");
+                writer.write(indent + optional + tab + "int32 " + argumentName + " = " + Integer.toString(i) + ";");
             } else {
-                writer.write(optional + tab + "string " + argumentName + " = " + Integer.toString(i) + ";");
+                writer.write(indent +optional + tab + "string " + argumentName + " = " + Integer.toString(i) + ";");
             }
             writer.write(" // " + required + entry.getValue().getDescription() + "\n");
             i++;
         }
-        writer.write("  liquibase.GlobalOptions global_options = " + i + ";\n");
+        writer.write(indent +"  liquibase.GlobalOptions global_options = " + i + ";\n");
     }
 
     // https://www.geeksforgeeks.org/convert-camel-case-string-to-snake-case-in-java/
