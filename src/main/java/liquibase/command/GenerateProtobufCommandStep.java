@@ -147,7 +147,7 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
             String required = entry.getValue().isRequired() ? "*required* " : "";
             String tab = entry.getValue().isRequired() ? "  " : "";
             String dataTypeName = entry.getValue().getDataType().getSimpleName();
-            String argumentName = entry.getKey();
+            String argumentName = toSnakeCase(entry.getKey());
             if (dataTypeName.equalsIgnoreCase("string")) {
                 writer.write(optional + tab + "string " + argumentName + " = " + Integer.toString(i) + ";");
             } else if (dataTypeName.equalsIgnoreCase("boolean")) {
