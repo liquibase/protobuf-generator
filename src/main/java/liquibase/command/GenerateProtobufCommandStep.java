@@ -123,7 +123,6 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
 
             writer.write("/* " + commandDefinition.getShortDescription() + " */\n");
             if (commandDefinition.getName().length > 1) {
-                //TODO account for nested commands. ex: checks copy
                 writer.write("message " + StringUtil.upperCaseFirst(StringUtil.toCamelCase(commandDefinition.getName()[0]))  + " {\n");
                 writer.write("  message " + StringUtil.upperCaseFirst(StringUtil.toCamelCase(commandDefinition.getName()[1])) + "Request {\n");
                 writeArgumentsToFile(writer, commandDefinition.getArguments(), "  ");
