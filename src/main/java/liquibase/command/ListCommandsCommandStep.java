@@ -28,7 +28,7 @@ public class ListCommandsCommandStep extends AbstractCommandStep {
             }
             StringBuilder out = new StringBuilder();
             for (String s : command.getName()) {
-                out.append(toKebabCase(s)).append(" ");
+                out.append(s).append(" ");
             }
             json.append("\"").append(out.toString().trim()).append("\"").append(",");
         }
@@ -36,21 +36,5 @@ public class ListCommandsCommandStep extends AbstractCommandStep {
         json.replace(last, last + 1, "");
         json.append("]");
         resultsBuilder.getOutputStream().write(json.toString().getBytes());
-    }
-
-    private String toKebabCase(String str) {
-        char c = str.charAt(0);
-        StringBuilder result = new StringBuilder(String.valueOf(Character.toLowerCase(c)));
-        for (int i = 1; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            if (Character.isUpperCase(ch)) {
-                result.append('-');
-                result.append(Character.toLowerCase(ch));
-            }
-            else {
-                result.append(ch);
-            }
-        }
-        return result.toString();
     }
 }
