@@ -184,9 +184,9 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
             char ch = str.charAt(i);
             if (Character.isUpperCase(ch)) {
                 result = result + '_';
-                result
-                        = result
-                        + Character.toLowerCase(ch);
+                result = result + Character.toLowerCase(ch);
+            } else if (Character.isSpaceChar(ch)) {
+                result = result + '_';
             }
             else {
                 result = result + ch;
@@ -196,8 +196,9 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
     }
 
     private CommandDefinition getCommand(String targetCommand) {
+        String[] split = targetCommand.split(" ");
         final CommandFactory commandFactory = getCurrentScope().getSingleton(CommandFactory.class);
-        return commandFactory.getCommandDefinition(targetCommand);
+        return commandFactory.getCommandDefinition(split);
     }
 
     private SortedSet<ConfigurationDefinition<?>> getCommandDefinitions() {
