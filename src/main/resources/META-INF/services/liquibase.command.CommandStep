@@ -1,1 +1,2 @@
 liquibase.command.GenerateProtobufCommandStep
+liquibase.command.ListCommandsCommandStep
