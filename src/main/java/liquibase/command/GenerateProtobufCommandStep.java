@@ -195,8 +195,25 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
         return result;
     }
 
+    // https://www.geeksforgeeks.org/convert-snake-case-string-to-camel-case-in-java/
+    private static String kebabToCamel(String str) {
+        str = str.substring(0, 1).toLowerCase() + str.substring(1);
+        StringBuilder builder = new StringBuilder(str);
+        for (int i = 0; i < builder.length(); i++) {
+            if (builder.charAt(i) == '-') {
+                builder.deleteCharAt(i);
+                builder.replace(
+                    i, i + 1,
+                    String.valueOf(
+                        Character.toUpperCase(
+                            builder.charAt(i))));
+            }
+        }
+        return builder.toString();
+    }
+
     private CommandDefinition getCommand(String targetCommand) {
-        String[] split = targetCommand.split(" ");
+        String[] split = kebabToCamel(targetCommand).split(" ");
         final CommandFactory commandFactory = getCurrentScope().getSingleton(CommandFactory.class);
         return commandFactory.getCommandDefinition(split);
     }
