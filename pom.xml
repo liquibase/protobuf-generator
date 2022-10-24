@@ -6,7 +6,7 @@
 
     <groupId>org.liquibase</groupId>
     <artifactId>protobuf-generator</artifactId>
-    <version>0.2.2-SNAPSHOT</version>
+    <version>0.3.0</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
