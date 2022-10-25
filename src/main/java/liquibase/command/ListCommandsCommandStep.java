@@ -29,11 +29,11 @@ public class ListCommandsCommandStep extends AbstractCommandStep {
             StringBuilder out = new StringBuilder();
             if (command.getName().length > 1) {
                 for (String s : command.getName()) {
-                    out.append("\"").append(toKebabCase(s)).append("\"").append(",");
+                    out.append(toKebabCase(s)).append(" ");
                 }
                 int last = out.length() - 1;
                 out.replace(last, last + 1, "");
-                json.append("[").append(out).append("]").append(",");
+                json.append("\"").append(out).append("\"").append(",");
             } else {
                 for (String s : command.getName()) {
                     out.append(toKebabCase(s)).append(" ");
