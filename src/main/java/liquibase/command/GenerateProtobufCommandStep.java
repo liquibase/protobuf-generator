@@ -8,6 +8,7 @@ import liquibase.util.StringUtil;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 
@@ -54,7 +55,6 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
                 writeCommandToFile(commandDefinition, outputDir);
             }
         }
-        // getConfigurations(); TODO doesn't look to be used.
     }
 
 
@@ -111,8 +111,13 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputDir + "/" + fileName))) {
             writeHeaderToFile(writer, uCommandName);
-            //TODO look for os vs pro packages
-            writer.write("package liquibase;\n\n");
+            List<CommandStep> commandStep = commandDefinition.getPipeline();
+            String cname = commandStep.get(0).getClass().getName();
+            if (cname.contains("com.datical")) {
+                writer.write("package liquibase.pro;\n\n");
+            } else  {
+                writer.write("package liquibase;\n\n");
+            }
             writer.write("service " + uCommandName + "Service {\n");
             if (commandDefinition.getName().length > 1) {
                 writer.write("  rpc execute(" + StringUtil.upperCaseFirst(StringUtil.toCamelCase(commandDefinition.getName()[0])) + "." + StringUtil.upperCaseFirst(StringUtil.toCamelCase(commandDefinition.getName()[1])) + "Request) returns (Response) {}\n");
@@ -226,14 +231,5 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
     private SortedSet<CommandDefinition> getCommands() {
         final CommandFactory commandFactory = getCurrentScope().getSingleton(CommandFactory.class);
         return commandFactory.getCommands(false);
-    }
-
-    private SortedSet<ConfigurationDefinition<?>> getConfigurations() {
-        LiquibaseConfiguration liquibaseConfiguration = Scope.getCurrentScope().getSingleton(LiquibaseConfiguration.class);
-        SortedSet<ConfigurationDefinition<?>> definitions = liquibaseConfiguration.getRegisteredDefinitions(false);
-        for (ConfigurationDefinition<?> definition : definitions) {
-           System.out.println(definition.getKey() + " " + definition.getDataType() + " " + definition.getCurrentValue());
-        }
-        return definitions;
     }
 }
