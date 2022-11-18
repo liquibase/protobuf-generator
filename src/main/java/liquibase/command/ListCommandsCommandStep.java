@@ -1,8 +1,7 @@
 package liquibase.command;
 
-import liquibase.pro.packaged.S;
-
 import java.util.Arrays;
+import java.util.List;
 import java.util.SortedSet;
 
 import static liquibase.Scope.getCurrentScope;
@@ -10,6 +9,14 @@ import static liquibase.Scope.getCurrentScope;
 public class ListCommandsCommandStep extends AbstractCommandStep {
 
     public static final String[] COMMAND_NAME = {"listCommands"};
+    public static final CommandArgumentDefinition<String> EDITION;
+
+    static {
+        CommandBuilder builder = new CommandBuilder(ListCommandsCommandStep.COMMAND_NAME);
+        EDITION = builder.argument("edition", String.class)
+                .defaultValue("")
+                .description("core or pro").build();
+    }
 
     @Override
     public String[][] defineCommandNames() {
@@ -23,9 +30,19 @@ public class ListCommandsCommandStep extends AbstractCommandStep {
         StringBuilder json = new StringBuilder();
         json.append("[");
         for (CommandDefinition command : commands) {
+            List<CommandStep> commandStep = command.getPipeline();
+            String commandName = commandStep.get(0).getClass().getName();
+
+            if (resultsBuilder.getCommandScope().getArgumentValue(EDITION).equalsIgnoreCase("pro") && commandName.contains("liquibase.command.core")) {
+                continue;
+            }
+            if (resultsBuilder.getCommandScope().getArgumentValue(EDITION).equalsIgnoreCase("core") && commandName.contains("com.datical")) {
+                continue;
+            }
             if (command.getName() == COMMAND_NAME || command.getName() == GenerateProtobufCommandStep.COMMAND_NAME) {
                 continue;
             }
+
             StringBuilder out = new StringBuilder();
             if (command.getName().length > 1) {
                 for (String s : command.getName()) {
