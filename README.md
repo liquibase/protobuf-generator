@@ -2,7 +2,7 @@
 Liquibase Extension that will generate a [protobuf](https://developers.google.com/protocol-buffers/) file for Liquibase Commands.
 
 ## Requirements
-* Liquibase 4.16.1 +
+* Liquibase 4.18.0 +
 
 ## Installation
 ```shell
@@ -53,8 +53,8 @@ $ liquibase generate-protobuf --target-command validate --output-dir proto
 ##                                                ##
 ####################################################
 Starting Liquibase at 14:40:05 (version 4.16.1 #4571 built at 2022-09-11 16:02+0000)
-Liquibase Version: 4.16.1
-Liquibase Community 4.16.1 by Liquibase
+Liquibase Version: 4.18.0
+Liquibase Community 4.18.0 by Liquibase
 writing validate.proto
 Liquibase command 'generate-protobuf' was executed successfully.
 ```
