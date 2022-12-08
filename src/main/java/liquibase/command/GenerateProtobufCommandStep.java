@@ -173,7 +173,11 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
             } else {
                 writer.write(indent +optional + tab + "string " + argumentName + " = " + Integer.toString(i) + ";");
             }
-            writer.write(" // " + required + entry.getValue().getDescription().replace("\n", " ") + "\n");
+            if (entry.getValue().getDescription() != null) {
+                writer.write(" // " + required + entry.getValue().getDescription().replace("\n", " ") + "\n");
+            } else {
+                writer.write("\n");
+            }
             i++;
         }
         writer.write(indent +"  liquibase.GlobalOptions global_options = " + i + ";\n");
