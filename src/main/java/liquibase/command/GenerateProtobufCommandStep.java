@@ -159,6 +159,9 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
     private void writeArgumentsToFile(BufferedWriter writer, Map<String, CommandArgumentDefinition<?>> arguments, String indent) throws IOException {
         int i=1;
         for (Map.Entry<String, CommandArgumentDefinition<?>> entry : arguments.entrySet()) {
+            if (entry.getValue().getHidden()) {
+                continue;
+            }
             String optional = entry.getValue().isRequired() ? "" : "  optional ";
             String required = entry.getValue().isRequired() ? "*required* " : "";
             String tab = entry.getValue().isRequired() ? "  " : "";
