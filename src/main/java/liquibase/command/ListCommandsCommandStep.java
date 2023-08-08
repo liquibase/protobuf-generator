@@ -42,6 +42,9 @@ public class ListCommandsCommandStep extends AbstractCommandStep {
             if (command.getName() == COMMAND_NAME || command.getName() == GenerateProtobufCommandStep.COMMAND_NAME) {
                 continue;
             }
+            if (command.getHidden()) {
+                continue;
+            }
 
             StringBuilder out = new StringBuilder();
             if (command.getName().length > 1) {
