@@ -2,6 +2,7 @@ package liquibase.command;
 
 import liquibase.configuration.ConfigurationDefinition;
 import liquibase.configuration.LiquibaseConfiguration;
+import liquibase.exception.UnexpectedLiquibaseException;
 import liquibase.util.StringUtil;
 
 import java.io.BufferedWriter;
@@ -42,13 +43,17 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
 
         writeGlobalToFile(outputDir);
 
-        if (targetCommand != "") {
-            writeCommandToFile(getCommand(targetCommand), outputDir);
+        if (StringUtil.isNotEmpty(targetCommand)) {
+            CommandDefinition command = getCommand(targetCommand);
+            if (command.getHidden()) {
+                throw new UnexpectedLiquibaseException("Command " + targetCommand + " cannot be generated as it is defined as a 'hidden' command by Liquibase");
+            }
+            writeCommandToFile(command, outputDir);
         } else {
             // Generate protobuf for all commands
             for (CommandDefinition commandDefinition : getCommands()) {
-                //Don't generate protobuf for generateProtobuf command step
-                if (commandDefinition.getName() == COMMAND_NAME) {
+                //Don't generate protobuf for generateProtobuf command step or hidden commands
+                if (commandDefinition.getName() == COMMAND_NAME || commandDefinition.getHidden()) {
                     continue;
                 }
                 writeCommandToFile(commandDefinition, outputDir);
