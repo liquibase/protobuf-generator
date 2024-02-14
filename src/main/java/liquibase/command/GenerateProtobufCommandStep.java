@@ -129,8 +129,8 @@ public class GenerateProtobufCommandStep extends AbstractCommandStep {
                 writer.write("  rpc execute(" + uCommandName + "Request) returns (Response) {}\n");
             }
             writer.write("}\n\n");
-
-            writer.write("/* " + commandDefinition.getShortDescription() + " */\n");
+            String shortDesc = commandDefinition.getShortDescription().replace("\n", " ");
+            writer.write("/* " +  shortDesc + " */\n");
             if (commandDefinition.getName().length > 1) {
                 writer.write("message " + StringUtil.upperCaseFirst(StringUtil.toCamelCase(commandDefinition.getName()[0]))  + " {\n");
                 writer.write("  message " + StringUtil.upperCaseFirst(StringUtil.toCamelCase(commandDefinition.getName()[1])) + "Request {\n");
