@@ -8,6 +8,12 @@
     <artifactId>protobuf-generator</artifactId>
     <version>0.3.9</version>
 
+    <scm>
+           <connection>scm:git:git://github.com/liquibase/protobuf-generator.git</connection>
+           <developerConnection>scm:git:ssh://github.com:liquibase/protobuf-generator.git</developerConnection>
+           <url>https://github.com/liquibase/protobuf-generator</url>
+    </scm>
+         
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
