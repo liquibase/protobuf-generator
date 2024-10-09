@@ -6,7 +6,7 @@
 
     <groupId>org.liquibase</groupId>
     <artifactId>protobuf-generator</artifactId>
-    <version>0.3.9</version>
+    <version>0.3.9-SNAPSHOT</version>
 
     <scm>
            <connection>scm:git:git://github.com/liquibase/protobuf-generator.git</connection>
